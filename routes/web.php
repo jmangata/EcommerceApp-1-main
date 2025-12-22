@@ -27,9 +27,17 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/cart/update/{cartItem}', [CartController::class, 'update'])->name('cart.update');
     Route::delete('/cart/remove/{cartItem}', [CartController::class, 'remove'])->name('cart.remove');
     Route::delete('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
-    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-    Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
-    Route::get('/checkout/success/{order}', [CheckoutController::class, 'success'])->name('checkout.success');
+  
+});
+
+Route::middleware(['auth'])->group(function () {
+
+     //Route::get('/checkout', [CheckoutController::class, 'teststripe'])->name('teststripe');
+     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+     Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
+     Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
+     Route::get('/checkout/cancel', [CheckoutController::class, 'cancel'])->name('checkout.cancel');
+
 });
 
 

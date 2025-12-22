@@ -1,6 +1,6 @@
 @extends('layouts.boutique')
 
-@section('content')
+@section('title', 'Validation de la commande')
 
 @section('content')
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -166,4 +166,4 @@
     </div>
 
 </div>
-@endsection 
+@endsection

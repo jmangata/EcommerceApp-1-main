@@ -25,7 +25,7 @@
                                    name="shipping_name" 
                                    value="{{ old('shipping_name', auth()->user()->name) }}"
                                    required
-                                   class="w-full border-gray-300 rounded-lg focus:border-blue-500 focus:ring focus:ring-blue-200">
+                                   class="w-full border border-gray-300 rounded-lg px-4 py-2 bg-white text-gray-900 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:outline-none">
                             @error('shipping_name')
                                 <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                             @enderror
@@ -38,7 +38,7 @@
                                    name="shipping_email" 
                                    value="{{ old('shipping_email', auth()->user()->email) }}"
                                    required
-                                   class="w-full border-gray-300 rounded-lg focus:border-blue-500 focus:ring focus:ring-blue-200">
+                                   class="w-full border border-gray-300 rounded-lg px-4 py-2 bg-white text-gray-900 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:outline-none">
                             @error('shipping_email')
                                 <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                             @enderror
@@ -51,7 +51,7 @@
                                    name="shipping_phone" 
                                    value="{{ old('shipping_phone', auth()->user()->phone) }}"
                                    required
-                                   class="w-full border-gray-300 rounded-lg focus:border-blue-500 focus:ring focus:ring-blue-200">
+                                   class="w-full border border-gray-300 rounded-lg px-4 py-2 bg-white text-gray-900 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:outline-none">
                             @error('shipping_phone')
                                 <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                             @enderror
@@ -63,7 +63,7 @@
                             <textarea name="shipping_address" 
                                       rows="3"
                                       required
-                                      class="w-full border-gray-300 rounded-lg focus:border-blue-500 focus:ring focus:ring-blue-200">{{ old('shipping_address', auth()->user()->address) }}</textarea>
+                                      class="w-full border border-gray-300 rounded-lg px-4 py-2 bg-white text-gray-900 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:outline-none">{{ old('shipping_address', auth()->user()->address) }}</textarea>
                             @error('shipping_address')
                                 <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                             @enderror
@@ -76,7 +76,7 @@
                                    name="shipping_postal_code" 
                                    value="{{ old('shipping_postal_code', auth()->user()->postal_code) }}"
                                    required
-                                   class="w-full border-gray-300 rounded-lg focus:border-blue-500 focus:ring focus:ring-blue-200">
+                                   class="w-full border border-gray-300 rounded-lg px-4 py-2 bg-white text-gray-900 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:outline-none">
                             @error('shipping_postal_code')
                                 <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                             @enderror
@@ -89,7 +89,7 @@
                                    name="shipping_city" 
                                    value="{{ old('shipping_city', auth()->user()->city) }}"
                                    required
-                                   class="w-full border-gray-300 rounded-lg focus:border-blue-500 focus:ring focus:ring-blue-200">
+                                   class="w-full border border-gray-300 rounded-lg px-4 py-2 bg-white text-gray-900 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:outline-none">
                             @error('shipping_city')
                                 <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                             @enderror

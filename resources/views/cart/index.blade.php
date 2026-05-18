@@ -42,17 +42,44 @@
                         <p class="mt-1 text-sm text-gray-500">{{$item->product->description}}</p>
                       </div>
                       <div class="flex flex-1 items-end justify-between text-sm">
-                        <p class="text-gray-500">{{ $item->quantity }}</p>
-                   
-{{--                           
-                         <div class="flex"> 
-                          <form action="{{route('cart.remove'),$item}}" method="post">
-                            @csrf 
-                            @method('DELETE')
-                          <button type="submit" class="font-medium text-indigo-600 hover:text-indigo-500">Remove</button>
+
+                        {{-- Boutons - quantité + --}}
+                        <div class="flex items-center gap-2">
+                          {{-- Décrémenter --}}
+                          <form action="{{ route('cart.update', $item) }}" method="POST">
+                            @csrf
+                            @method('PATCH')
+                            <input type="hidden" name="quantity" value="{{ max(1, $item->quantity - 1) }}">
+                            <button type="submit"
+                                    class="flex items-center justify-center w-7 h-7 rounded-full border border-gray-300 text-gray-600 hover:bg-gray-100 disabled:opacity-40"
+                                    {{ $item->quantity <= 1 ? 'disabled' : '' }}>
+                              −
+                            </button>
                           </form>
-                        </div> --}}
-                        
+
+                          <span class="w-6 text-center font-medium text-gray-900">{{ $item->quantity }}</span>
+
+                          {{-- Incrémenter --}}
+                          <form action="{{ route('cart.update', $item) }}" method="POST">
+                            @csrf
+                            @method('PATCH')
+                            <input type="hidden" name="quantity" value="{{ $item->quantity + 1 }}">
+                            <button type="submit"
+                                    class="flex items-center justify-center w-7 h-7 rounded-full border border-gray-300 text-gray-600 hover:bg-gray-100">
+                              +
+                            </button>
+                          </form>
+                        </div>
+
+                        {{-- Supprimer --}}
+                        <form action="{{ route('cart.remove', $item) }}" method="POST">
+                          @csrf
+                          @method('DELETE')
+                          <button type="submit" class="font-medium text-red-500 hover:text-red-700">
+                            Supprimer
+                          </button>
+                        </form>
+
                       </div>
                     </div>
                   </li>
@@ -82,10 +109,9 @@
             <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
               <p>
                 or
-                <button type="button" command="close" commandfor="drawer" class="font-medium text-indigo-600 hover:text-indigo-500">
+                <a href="{{ route('home') }}" class="font-medium text-indigo-600 hover:text-indigo-500">
                   ← Continuer mes achats
-                  <span aria-hidden="true"> &rarr;</span>
-                </button>
+                </a>
                 <div>
 
                 </div>

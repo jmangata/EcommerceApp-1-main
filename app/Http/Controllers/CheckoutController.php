@@ -161,12 +161,27 @@ return redirect($session->url);
     
 
     // commande réalisé
-     public function success()  {
-        
+    public function success(Request $request)
+    {
+        $order = Order::findOrFail($request->query('order'));
+
+        // Vide le panier après paiement réussi
+        $cart = auth()->user()->cart;
+        if ($cart) {
+            $cart->items()->delete();
+        }
+
+        return view('checkout.success', compact('order'));
     }
 
     // commande annulé
-     public function cancel()  {
-        
+    public function cancel(Request $request)
+    {
+        $order = Order::findOrFail($request->query('order'));
+
+        $order->update(['status' => OrderStatus::CANCELLED]);
+
+        return redirect()->route('cart.index')
+            ->with('error', 'Paiement annulé. Votre commande a été annulée. Vous pouvez recommencer.');
     }
 }

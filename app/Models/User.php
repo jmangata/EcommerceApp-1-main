@@ -11,8 +11,10 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     use HasFactory, Notifiable;
 
@@ -86,6 +88,11 @@ class User extends Authenticatable
         return $this->role === UserRole::CUSTOMER;
     }
 
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->isAdmin();
+    }
+
     /**
      * Obtient le label du rôle en français
      * 
@@ -117,10 +124,7 @@ class User extends Authenticatable
     
     public function getOrCreateCart()
 {
-    if (!$this->cart) {
-        $this->cart()->create();
-    }
-    return $this->cart;
+    return $this->cart()->firstOrCreate([]);
 }
 
     /**

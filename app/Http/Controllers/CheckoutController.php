@@ -7,35 +7,20 @@ use App\Models\OrderItem;
 use App\Enums\OrderStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
 
 
 class CheckoutController extends Controller
 {
-    // tester une commande
-   public function teststripe(Request $request)  {
-        
-
-      $stripePriceId = "price_1SfjLLIm0fn9gxVOewEIs2tz" ;
-
-      $quantity = 1;
- 
-        return $request->user()->checkout([$stripePriceId => $quantity], [
-            'success_url' => route('checkout.success'),
-            'cancel_url' => route('checkout.cancel'),
-        ]);
-
-    }
-
-/**
+    /**
      * Affiche la page de validation de commande
      */
     public function index()
     {
         $cart = auth()->user()->cart;
 
-        // Redirige si panier vide
         if (!$cart || $cart->isEmpty()) {
             return redirect()->route('cart.index')
                 ->with('error', 'Votre panier est vide.');
@@ -47,20 +32,17 @@ class CheckoutController extends Controller
     }
 
     /**
-     * Traite la commande
+     * Traite la commande et redirige vers Stripe Checkout
      */
     public function process(Request $request)
     {
-        
         $cart = auth()->user()->cart;
 
-        // Vérifie que le panier n'est pas vide
         if (!$cart || $cart->isEmpty()) {
             return redirect()->route('cart.index')
                 ->with('error', 'Votre panier est vide.');
         }
 
-        // Validation des données de livraison
         $validated = $request->validate([
             'shipping_name' => 'required|string|max:255',
             'shipping_email' => 'required|email|max:255',
@@ -73,18 +55,16 @@ class CheckoutController extends Controller
         try {
             DB::beginTransaction();
 
-            // Vérifie le stock de tous les produits
             foreach ($cart->items as $item) {
                 if ($item->product->stock_quantity < $item->quantity) {
                     throw new \Exception("Stock insuffisant pour {$item->product->name}");
                 }
             }
 
-            // Crée la commande
             $order = Order::create([
                 'user_id' => auth()->id(),
-                'order_number' => 'CMD-' . strtoupper(uniqid()),
                 'status' => OrderStatus::PENDING,
+                'payment_status' => 'unpaid',
                 'subtotal' => $cart->subtotal,
                 'tax' => $cart->tax,
                 'shipping' => $cart->shipping,
@@ -97,7 +77,6 @@ class CheckoutController extends Controller
                 'shipping_city' => $validated['shipping_city'],
             ]);
 
-            // Crée les items de commande et décrémente le stock
             foreach ($cart->items as $item) {
                 OrderItem::create([
                     'order_id' => $order->id,
@@ -107,79 +86,132 @@ class CheckoutController extends Controller
                     'price' => $item->price,
                 ]);
 
-                // Décrémente le stock
                 $item->product->decrement('stock_quantity', $item->quantity);
             }
 
-            // Vide le panier
-            // $cart->clear();
-
             DB::commit();
 
+            Stripe::setApiKey(config('services.stripe.secret'));
 
-         Stripe::setApiKey(config('services.stripe.secret'));
+            $lineItems = [];
+            foreach ($order->items as $orderItem) {
+                $lineItems[] = [
+                    'price_data' => [
+                        'currency' => 'eur',
+                        'product_data' => [
+                            'name' => $orderItem->product_name,
+                        ],
+                        'unit_amount' => (int) ($orderItem->price * 100),
+                    ],
+                    'quantity' => $orderItem->quantity,
+                ];
+            }
 
-$session = Session::create([
-    'mode' => 'payment',
+            $session = Session::create([
+                'mode' => 'payment',
+                'customer_email' => $validated['shipping_email'],
+                'line_items' => $lineItems,
+                'metadata' => [
+                    'order_id' => $order->id,
+                    'user_id' => auth()->id(),
+                ],
+                'success_url' => route('checkout.success') . '?session_id={CHECKOUT_SESSION_ID}',
+                'cancel_url'  => route('checkout.cancel') . '?session_id={CHECKOUT_SESSION_ID}',
+            ]);
 
-    'line_items' => [[
-        'price_data' => [
-            'currency' => 'eur',
-            'product_data' => [
-                'name' => 'Commande #' . $order->id,
-                'description' => 'Paiement de votre commande',
-            ],
-            'unit_amount' => (int) ($order->total * 100),
-        ],
-        'quantity' => 1,
-    ]],
+            $order->update([
+                'stripe_checkout_session_id' => $session->id,
+            ]);
 
-    'metadata' => [
-        'order_id' => $order->id,
-    ],
-
-    'success_url' => route('checkout.success', ['order' => $order->id]),
-    'cancel_url'  => route('checkout.cancel', ['order' => $order->id]),
-]);
-
-$order->update([
-    'stripe_checkout_session_id' => $session->id,
-]);
-
-return redirect($session->url);
-           /* return redirect()->route('checkout.success', $order)
-                ->with('success', 'Commande passée avec succès !');*/
+            return redirect($session->url);
 
         } catch (\Exception $e) {
             DB::rollBack();
-            
+            Log::error('Checkout error', ['error' => $e->getMessage(), 'user_id' => auth()->id()]);
+
             return back()
                 ->withInput()
-                ->with('error', 'Erreur lors de la commande : ' . $e->getMessage());
+                ->with('error', 'Une erreur est survenue lors du traitement de votre commande. Veuillez réessayer.');
         }
     }
-    
 
-    // commande réalisé
+    /**
+     * Gère le retour après paiement réussi.
+     * Vérifie le statut du paiement auprès de Stripe avant de confirmer.
+     */
     public function success(Request $request)
     {
-        $order = Order::findOrFail($request->query('order'));
+        $sessionId = $request->query('session_id');
 
-        // Vide le panier après paiement réussi
-        $cart = auth()->user()->cart;
-        if ($cart) {
-            $cart->items()->delete();
+        if (!$sessionId) {
+            return redirect()->route('cart.index')
+                ->with('error', 'Session de paiement invalide.');
+        }
+
+        Stripe::setApiKey(config('services.stripe.secret'));
+
+        try {
+            $session = Session::retrieve($sessionId);
+        } catch (\Exception $e) {
+            Log::error('Stripe session retrieval failed on success callback', ['session_id' => $sessionId]);
+            return redirect()->route('cart.index')
+                ->with('error', 'Impossible de vérifier le paiement. Contactez le support.');
+        }
+
+        $order = Order::where('stripe_checkout_session_id', $sessionId)
+            ->where('user_id', auth()->id())
+            ->first();
+
+        if (!$order) {
+            return redirect()->route('cart.index')
+                ->with('error', 'Commande introuvable.');
+        }
+
+        if ($session->payment_status === 'paid' && $order->payment_status !== 'paid') {
+            $order->update([
+                'payment_status' => 'paid',
+                'stripe_payment_intent_id' => $session->payment_intent,
+                'paid_at' => now(),
+            ]);
+
+            $cart = auth()->user()->cart;
+            if ($cart) {
+                $cart->items()->delete();
+            }
         }
 
         return view('checkout.success', compact('order'));
     }
 
-    // commande annulé
+    /**
+     * Gère l'annulation du paiement.
+     * Vérifie l'appartenance de la commande à l'utilisateur connecté.
+     */
     public function cancel(Request $request)
     {
-        $order = Order::findOrFail($request->query('order'));
+        $sessionId = $request->query('session_id');
 
-        $order->update(['status' => OrderStatus::CANCELLED]);
+        if (!$sessionId) {
+            return redirect()->route('cart.index')
+                ->with('error', 'Session de paiement invalide.');
+        }
+
+        $order = Order::where('stripe_checkout_session_id', $sessionId)
+            ->where('user_id', auth()->id())
+            ->first();
+
+        if (!$order) {
+            return redirect()->route('cart.index')
+                ->with('error', 'Commande introuvable.');
+        }
+
+        if ($order->payment_status !== 'paid') {
+            $order->update(['status' => OrderStatus::CANCELLED]);
+
+            foreach ($order->items as $item) {
+                $item->product->increment('stock_quantity', $item->quantity);
+            }
+        }
 
         return redirect()->route('cart.index')
             ->with('error', 'Paiement annulé. Votre commande a été annulée. Vous pouvez recommencer.');

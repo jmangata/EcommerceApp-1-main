@@ -40,6 +40,14 @@ class Order extends Model
         'shipped_at',
         'delivered_at',
         'cancelled_at',
+        'stripe_checkout_session_id',
+        'stripe_payment_intent_id',
+        'payment_status',
+        'payment_method',
+        'paid_at',
+        'stripe_refund_id',
+        'refunded_amount',
+        'refunded_at',
     ];
 
     /**
@@ -59,6 +67,9 @@ class Order extends Model
             'shipped_at' => 'datetime',
             'delivered_at' => 'datetime',
             'cancelled_at' => 'datetime',
+            'paid_at' => 'datetime',
+            'refunded_at' => 'datetime',
+            'refunded_amount' => 'decimal:2',
         ];
     }
 

@@ -9,6 +9,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\StripeWebhookController;
 
 // Page d'accueil
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -31,14 +32,14 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-
-     //Route::get('/checkout', [CheckoutController::class, 'teststripe'])->name('teststripe');
      Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
      Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
      Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
      Route::get('/checkout/cancel', [CheckoutController::class, 'cancel'])->name('checkout.cancel');
-
 });
+
+Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle'])
+    ->name('stripe.webhook');
 
 
 

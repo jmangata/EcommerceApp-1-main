@@ -39,8 +39,16 @@
             <div class="flow-root">
               <a href="{{route('profile.edit')}}" class="-m-2 block p-2 font-medium text-gray-900">Mon compte</a>
             </div>
+            <div class="flow-root">
+              <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <a href="{{ route('logout') }}"
+                   onclick="event.preventDefault(); this.closest('form').submit();"
+                   class="-m-2 block p-2 font-medium text-gray-900">Déconnexion</a>
+              </form>
+            </div>
             @endauth
-           
+
           </div>
 
         
@@ -87,6 +95,13 @@
            
                 @auth
                 <a href="{{route('profile.edit')}}" class="text-sm font-medium text-gray-700 hover:text-gray-800">Mon compte</a>
+                <span aria-hidden="true" class="h-6 w-px bg-gray-200"></span>
+                <form method="POST" action="{{ route('logout') }}" class="inline">
+                  @csrf
+                  <a href="{{ route('logout') }}"
+                     onclick="event.preventDefault(); this.closest('form').submit();"
+                     class="text-sm font-medium text-gray-700 hover:text-gray-800">Déconnexion</a>
+                </form>
                 @endauth
                 @auth
                 @if(auth()->user()->isAdmin())

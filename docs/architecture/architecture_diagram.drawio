@@ -1,0 +1,181 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Architecture EcommerceApp" id="ecommerce-arch">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" background="#FFFFCC" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- TITRE -->
+        <mxCell id="title" value="&lt;b&gt;&lt;font style=&quot;font-size: 24px;&quot;&gt;EcommerceApp - Architecture&lt;/font&gt;&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;" vertex="1" parent="1">
+          <mxGeometry x="550" y="20" width="380" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- WEB BROWSER (Client) -->
+        <mxCell id="browser" value="&lt;b&gt;Web Browser&lt;/b&gt;&lt;br&gt;(Chrome, Firefox, etc.)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="300" width="160" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- LARAVEL APPLICATION (Middleware central) -->
+        <mxCell id="laravel" value="&lt;b&gt;Laravel 12&lt;/b&gt;&lt;br&gt;Application&lt;br&gt;(Routing + Controllers + Middleware)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FF8000;fontColor=#000000;strokeColor=#CC6600;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="350" y="280" width="220" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- FILAMENT ADMIN PANEL -->
+        <mxCell id="filament_admin" value="&lt;b&gt;Filament Admin&lt;/b&gt;&lt;br&gt;Panel (/admin)&lt;br&gt;Category + Product + Order&lt;br&gt;Resources" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FF8000;fontColor=#000000;strokeColor=#CC6600;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="280" y="80" width="180" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- FILAMENT CUSTOMER PANEL -->
+        <mxCell id="filament_customer" value="&lt;b&gt;Filament Customer&lt;/b&gt;&lt;br&gt;Panel (/customer)&lt;br&gt;Espace Client" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FF8000;fontColor=#000000;strokeColor=#CC6600;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="520" y="80" width="180" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- BLADE VIEWS + TAILWIND + ALPINE -->
+        <mxCell id="frontend" value="&lt;b&gt;Frontend&lt;/b&gt;&lt;br&gt;Blade Views&lt;br&gt;TailwindCSS + Alpine.js" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FF8000;fontColor=#000000;strokeColor=#CC6600;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="80" y="80" width="160" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- API STRIPE -->
+        <mxCell id="stripe_api" value="&lt;b&gt;API&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FF8000;fontColor=#000000;strokeColor=#CC6600;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="700" y="200" width="50" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- STRIPE SERVICE -->
+        <mxCell id="stripe" value="&lt;b&gt;Stripe&lt;/b&gt;&lt;br&gt;Payment&lt;br&gt;Gateway" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FF8000;fontColor=#000000;strokeColor=#CC6600;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="800" y="170" width="140" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- DATABASE PRINCIPALE -->
+        <mxCell id="database" value="&lt;b&gt;MySQL/SQLite&lt;/b&gt;&lt;br&gt;Database" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="380" y="500" width="140" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- API vers DB -->
+        <mxCell id="api_db" value="&lt;b&gt;Eloquent&lt;br&gt;ORM&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FF8000;fontColor=#000000;strokeColor=#CC6600;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="425" y="430" width="60" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- FILE STORAGE -->
+        <mxCell id="filestorage" value="&lt;b&gt;File&lt;/b&gt;&lt;br&gt;Storage&lt;br&gt;(Images)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#f0a0c0;fontColor=#000000;strokeColor=#CC0066;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="620" y="500" width="120" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- VITE BUILD -->
+        <mxCell id="vite" value="&lt;b&gt;Vite&lt;/b&gt;&lt;br&gt;Build Tool" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FF8000;fontColor=#000000;strokeColor=#CC6600;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="40" y="80" width="80" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- MODELS LAYER -->
+        <mxCell id="models" value="&lt;b&gt;Models (Eloquent)&lt;/b&gt;&lt;br&gt;User | Product | Category&lt;br&gt;Cart | CartItem&lt;br&gt;Order | OrderItem" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFD966;fontColor=#000000;strokeColor=#CC9900;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="150" y="440" width="200" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- ENUMS -->
+        <mxCell id="enums" value="&lt;b&gt;Enums&lt;/b&gt;&lt;br&gt;UserRole&lt;br&gt;OrderStatus&lt;br&gt;PaymentStatus" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFD966;fontColor=#000000;strokeColor=#CC9900;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="800" y="320" width="140" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- BREEZE AUTH -->
+        <mxCell id="breeze" value="&lt;b&gt;Laravel Breeze&lt;/b&gt;&lt;br&gt;Authentication&lt;br&gt;(Login/Register/Reset)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FF8000;fontColor=#000000;strokeColor=#CC6600;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="700" y="80" width="170" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- FLECHES / CONNEXIONS -->
+
+        <!-- Browser -> Laravel -->
+        <mxCell id="edge1" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#CC0000;strokeWidth=3;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="browser" target="laravel">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1_label" value="HTTP Request" style="edgeLabel;html=1;fontSize=9;" vertex="1" connectable="0" parent="edge1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Laravel -> Browser -->
+        <mxCell id="edge1b" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#FF8C00;strokeWidth=3;exitX=0;exitY=0.7;entryX=1;entryY=0.7;" edge="1" parent="1" source="laravel" target="browser">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1b_label" value="HTML Response" style="edgeLabel;html=1;fontSize=9;" vertex="1" connectable="0" parent="edge1b">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Laravel -> Filament Admin -->
+        <mxCell id="edge2" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#CC0000;strokeWidth=2;exitX=0.3;exitY=0;entryX=0.5;entryY=1;" edge="1" parent="1" source="laravel" target="filament_admin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Laravel -> Filament Customer -->
+        <mxCell id="edge3" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#CC0000;strokeWidth=2;exitX=0.7;exitY=0;entryX=0.5;entryY=1;" edge="1" parent="1" source="laravel" target="filament_customer">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Laravel -> Frontend -->
+        <mxCell id="edge4" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#CC0000;strokeWidth=2;exitX=0;exitY=0;entryX=0.5;entryY=1;" edge="1" parent="1" source="laravel" target="frontend">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Laravel -> Stripe API -->
+        <mxCell id="edge5" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#CC0000;strokeWidth=2;exitX=1;exitY=0.3;entryX=0;entryY=0.5;" edge="1" parent="1" source="laravel" target="stripe_api">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Stripe API -> Stripe -->
+        <mxCell id="edge6" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#CC0000;strokeWidth=2;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="stripe_api" target="stripe">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Laravel -> Eloquent ORM -->
+        <mxCell id="edge7" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#CC0000;strokeWidth=2;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="laravel" target="api_db">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Eloquent ORM -> Database -->
+        <mxCell id="edge8" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#CC0000;strokeWidth=2;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="api_db" target="database">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Laravel -> Models -->
+        <mxCell id="edge9" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#CC0000;strokeWidth=2;exitX=0;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="laravel" target="models">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Models -> Database -->
+        <mxCell id="edge10" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#CC0000;strokeWidth=2;exitX=1;exitY=1;entryX=0;entryY=0.5;" edge="1" parent="1" source="models" target="database">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Laravel -> File Storage -->
+        <mxCell id="edge11" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#CC0000;strokeWidth=2;exitX=1;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="laravel" target="filestorage">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Laravel -> Enums -->
+        <mxCell id="edge12" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#CC0000;strokeWidth=2;exitX=1;exitY=0.7;entryX=0;entryY=0.5;" edge="1" parent="1" source="laravel" target="enums">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Laravel -> Breeze -->
+        <mxCell id="edge13" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#CC0000;strokeWidth=2;exitX=1;exitY=0;entryX=0.5;entryY=1;" edge="1" parent="1" source="laravel" target="breeze">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- LEGENDE -->
+        <mxCell id="legend_title" value="&lt;b&gt;Légende&lt;/b&gt;" style="text;html=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="40" y="580" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="legend1" value="= Composant applicatif" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FF8000;fontColor=#000000;strokeColor=#CC6600;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="40" y="605" width="160" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="legend2" value="= Logique métier" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFD966;fontColor=#000000;strokeColor=#CC9900;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="40" y="635" width="160" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="legend3" value="= Base de données" style="shape=cylinder3;whiteSpace=wrap;html=1;size=8;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="40" y="665" width="160" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="legend4" value="= Client (navigateur)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="40" y="705" width="160" height="25" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

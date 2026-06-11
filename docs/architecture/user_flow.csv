@@ -1,0 +1,41 @@
+Id,Name,Shape,Line Source,Line Destination,Line Label
+1,Visiteur,Terminator,,,
+2,Page Accueil (/),Process,,,
+3,Catalogue Produits (/products),Process,,,
+4,Catégorie (/categories/{slug}),Process,,,
+5,Détail Produit (/products/{slug}),Process,,,
+6,Authentifié ?,Decision,,,
+7,Login / Register,Process,,,
+8,Ajout au Panier (POST /cart/add),Process,,,
+9,Panier (GET /cart),Process,,,
+10,Modifier quantité,Process,,,
+11,Supprimer item,Process,,,
+12,Checkout (GET /checkout),Process,,,
+13,Formulaire livraison + récap,Process,,,
+14,Paiement Stripe (POST /checkout),Process,,,
+15,Stripe Hosted Page,Process,,,
+16,Paiement Réussi ?,Decision,,,
+17,Commande Confirmée (/checkout/success),Process,,,
+18,Paiement Annulé (/checkout/cancel),Process,,,
+19,Fin - Commande Créée,Terminator,,,
+20,Visiteur -> Accueil,,1,2,Navigation
+21,Accueil -> Catalogue,,2,3,Voir produits
+22,Accueil -> Catégorie,,2,4,Filtrer
+23,Catalogue -> Détail,,3,5,Clic produit
+24,Catégorie -> Détail,,4,5,Clic produit
+25,Détail -> Auth Check,,5,6,Ajouter au panier
+26,Auth NON,,6,7,Non authentifié
+27,Auth OUI,,6,8,Authentifié
+28,Login -> Auth Check,,7,6,Après login
+29,Ajout -> Panier,,8,9,Redirection
+30,Panier -> Modifier,,9,10,PATCH
+31,Panier -> Supprimer,,9,11,DELETE
+32,Panier -> Checkout,,9,12,Commander
+33,Checkout -> Formulaire,,12,13,Affichage
+34,Formulaire -> Stripe,,13,14,Valider
+35,Stripe -> Hosted,,14,15,Redirect
+36,Hosted -> Decision,,15,16,Retour
+37,Succès,,16,17,Oui
+38,Annulé,,16,18,Non
+39,Succès -> Fin,,17,19,Commande enregistrée
+40,Annulé -> Panier,,18,9,Retour panier

@@ -1,0 +1,90 @@
+Id,Name,Shape Library,Text Area 1,Text Area 2,Line Source,Line Destination
+1,users,Entity,"PK: id (bigint)
+name (string)
+email (string)
+password (hashed)
+role (enum: admin/customer)
+phone (string nullable)
+address (string nullable)
+city (string nullable)
+postal_code (string nullable)
+email_verified_at (datetime)
+remember_token
+created_at
+updated_at",,,,
+2,categories,Entity,"PK: id (bigint)
+name (string)
+slug (string unique)
+description (text nullable)
+image (string nullable)
+is_active (boolean)
+sort_order (integer)
+created_at
+updated_at",,,,
+3,products,Entity,"PK: id (bigint)
+FK: category_id (bigint)
+name (string)
+slug (string unique)
+short_description (text nullable)
+description (text nullable)
+price (decimal 8.2)
+sale_price (decimal 8.2 nullable)
+image (string nullable)
+images (json nullable)
+sku (string unique)
+stock_quantity (integer)
+is_active (boolean)
+is_featured (boolean)
+sort_order (integer)
+created_at
+updated_at",,,,
+4,carts,Entity,"PK: id (bigint)
+FK: user_id (bigint unique)
+created_at
+updated_at",,,,
+5,cart_items,Entity,"PK: id (bigint)
+FK: cart_id (bigint)
+FK: product_id (bigint)
+quantity (integer)
+price (decimal 8.2)
+created_at
+updated_at",,,,
+6,orders,Entity,"PK: id (bigint)
+FK: user_id (bigint)
+order_number (string unique)
+status (enum: pending/confirmed/processing/shipped/delivered/cancelled)
+subtotal (decimal 10.2)
+tax (decimal 10.2)
+shipping (decimal 10.2)
+total (decimal 10.2)
+shipping_name (string)
+shipping_email (string)
+shipping_phone (string)
+shipping_address (string)
+shipping_city (string)
+shipping_postal_code (string)
+customer_notes (text nullable)
+admin_notes (text nullable)
+confirmed_at (datetime nullable)
+shipped_at (datetime nullable)
+delivered_at (datetime nullable)
+cancelled_at (datetime nullable)
+created_at
+updated_at",,,,
+7,order_items,Entity,"PK: id (bigint)
+FK: order_id (bigint)
+FK: product_id (bigint)
+product_name (string)
+product_sku (string)
+quantity (integer)
+price (decimal 8.2)
+subtotal (decimal 8.2)
+created_at
+updated_at",,,,
+8,users -> carts,,,,"1:1 (HasOne)",1,4
+9,users -> orders,,,,"1:N (HasMany)",1,6
+10,categories -> products,,,,"1:N (HasMany)",2,3
+11,carts -> cart_items,,,,"1:N (HasMany)",4,5
+12,products -> cart_items,,,,"1:N (HasMany)",3,5
+13,orders -> order_items,,,,"1:N (HasMany)",6,7
+14,products -> order_items,,,,"1:N (HasMany)",3,7

@@ -1,0 +1,40 @@
+Id,Name,Shape,Line Source,Line Destination,Line Label
+1,Admin (role: admin),Terminator,,,
+2,Login /admin/login,Process,,,
+3,Dashboard Admin,Process,,,
+4,Gestion Catégories,Process,,,
+5,Liste Catégories,Process,,,
+6,Créer Catégorie,Process,,,
+7,Modifier Catégorie,Process,,,
+8,Gestion Produits,Process,,,
+9,Liste Produits,Process,,,
+10,Créer Produit,Process,,,
+11,Modifier Produit,Process,,,
+12,Gestion Commandes,Process,,,
+13,Liste Commandes,Process,,,
+14,Modifier Statut Commande,Process,,,
+15,Workflow Statut,Decision,,,
+16,Confirmer (pending -> confirmed),Process,,,
+17,Préparer (confirmed -> processing),Process,,,
+18,Expédier (-> shipped),Process,,,
+19,Livrer (shipped -> delivered),Process,,,
+20,Annuler (-> cancelled),Process,,,
+21,Admin -> Login,,1,2,Authentification
+22,Login -> Dashboard,,2,3,canAccessPanel() = true
+23,Dashboard -> Catégories,,3,4,Menu
+24,Dashboard -> Produits,,3,8,Menu
+25,Dashboard -> Commandes,,3,12,Menu
+26,Catégories -> Liste,,4,5,Index
+27,Liste Cat -> Créer,,5,6,Action
+28,Liste Cat -> Modifier,,5,7,Action
+29,Produits -> Liste,,8,9,Index
+30,Liste Prod -> Créer,,9,10,Action
+31,Liste Prod -> Modifier,,9,11,Action
+32,Commandes -> Liste,,12,13,Index
+33,Liste Cmd -> Modifier,,13,14,Action
+34,Modifier -> Workflow,,14,15,Changement statut
+35,Workflow -> Confirmer,,15,16,pending
+36,Workflow -> Préparer,,15,17,confirmed
+37,Workflow -> Expédier,,15,18,processing/confirmed
+38,Workflow -> Livrer,,15,19,shipped
+39,Workflow -> Annuler,,15,20,any (sauf delivered)

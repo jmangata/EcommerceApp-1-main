@@ -1,0 +1,43 @@
+Id,Name,Shape,Container,Style,Text Area 1,Line Source,Line Destination,Line Label
+1,Application E-commerce Laravel,Rectangle,,,Stack Technique: Laravel 12 + Filament 4 + Stripe + TailwindCSS + Alpine.js,,,
+2,Frontend (Blade + Tailwind + Alpine.js),Rectangle,1,fill: #DBEAFE,"Layouts: app / boutique / guest
+Views: home / products / cart / checkout / auth / profile
+Components Blade: 17 composants (navigation / card-product / header...)
+Assets: TailwindCSS 3.x + Alpine.js 3.x (compilés via Vite 7)",,,
+3,Filament Panels,Rectangle,1,fill: #FEF3C7,"Admin Panel (/admin) - Couleur: Amber
+  Resources: CategoryResource / ProductResource / OrderResource
+  Pages: Dashboard + CRUD pages
+
+Customer Panel (/customer) - Couleur: Green
+  Espace Client (auto-discover)",,,
+4,Routing Layer,Rectangle,1,fill: #E0E7FF,"web.php: Routes publiques + authentifiées
+auth.php: Authentification (Breeze)
+Filament: Auto-routing admin + customer panels",,,
+5,Controllers (HTTP),Rectangle,1,fill: #FCE7F3,"HomeController - Page d'accueil
+ProductController - Catalogue + Détail + Catégorie
+CartController - Panier CRUD (auth)
+CheckoutController - Processus commande + Stripe (auth)
+ProfileController - Gestion profil (auth)
+Auth/ - 9 controllers Breeze (register/login/password/email)",,,
+6,Business Logic (Enums + Model Methods),Rectangle,1,fill: #ECFDF5,"Enums:
+  UserRole: admin / customer
+  OrderStatus: pending → confirmed → processing → shipped → delivered | cancelled
+  PaymentStatus: unpaid / paid / refunded / partially_refunded / failed
+
+Cart: Calcul automatique (subtotal / tax 8.5% / shipping / total)
+Order: Workflow statut (confirm / markAsProcessing / ship / deliver / cancel)",,,
+7,Models (Eloquent ORM),Rectangle,1,fill: #FEF9C3,"User - Cart - CartItem - Product - Category - Order - OrderItem
+Relations: HasOne / HasMany / BelongsTo
+Scopes: active / featured / inCategory / sortByPrice / pending
+Accessors: formatted_price / effective_price / image_url / in_stock",,,
+8,Database (SQL),Rectangle,1,fill: #F3E8FF,"11 Migrations | 7 Factories | 1 Seeder
+Tables: users / categories / products / carts / cart_items / orders / order_items / cache / jobs",,,
+9,External Services,Rectangle,,fill: #FEE2E2,"Stripe API - Paiement en ligne (stripe-php ^19.1)
+File Storage - Images produits/catégories (local/S3)",,,
+10,Frontend -> Routing,,,,,,2,4,HTTP Requests
+11,Routing -> Controllers,,,,,,4,5,Dispatch
+12,Controllers -> Business Logic,,,,,,5,6,Logique métier
+13,Business Logic -> Models,,,,,,6,7,Eloquent
+14,Models -> Database,,,,,,7,8,SQL Queries
+15,Controllers -> External Services,,,,,,5,9,API Calls (Stripe)
+16,Filament -> Models,,,,,,3,7,Direct ORM Access
